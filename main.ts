@@ -11,5 +11,10 @@ const here = dirname(fileURLToPath(import.meta.url));
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 const image = readFileSync(join(here, 'entry.png'));
 
+if (image.length === 0) {
+  throw new Error('entry.png is empty, refusing to write an empty entry');
+}
+
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, 'entry.png'), image);
+console.log(`wrote ${image.length} bytes to ${join(outDir, 'entry.png')}`);
